@@ -60,8 +60,7 @@ export default function DashboardPage() {
 
   const handleCopyCode = () => {
     if (data?.user.referralCode) {
-      const referralLink = `${window.location.origin}/register?ref=${data.user.referralCode}`
-      navigator.clipboard.writeText(referralLink)
+      navigator.clipboard.writeText(data.user.referralCode)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     }
@@ -122,12 +121,12 @@ export default function DashboardPage() {
         <div className="referral-code-section">
           <h2>Your Referral Code</h2>
           <p style={{ textAlign: 'left', marginBottom: '10px' }}>
-            Share this link to earn 10 points per referral
+            Share this code to earn 10 points per referral
           </p>
           <div className="referral-code">
             <span className="code">{data.user.referralCode}</span>
             <button onClick={handleCopyCode} className="copy-button">
-              {copied ? 'Copied!' : 'Copy Link'}
+              {copied ? 'Copied!' : 'Copy Code'}
             </button>
           </div>
         </div>
@@ -145,7 +144,7 @@ export default function DashboardPage() {
             </ul>
           ) : (
             <div className="empty-state">
-              No referrals yet. Share your referral link to get started!
+              No referrals yet. Share your referral code to get started!
             </div>
           )}
         </div>
