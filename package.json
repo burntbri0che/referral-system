@@ -4,30 +4,42 @@
   "description": "A MERN stack referral system with Next.js, Express.js, PostgreSQL, and Prisma",
   "scripts": {
     "dev": "next dev",
+    "dev:backend": "nodemon server/index.js",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
+    "start:backend": "node server/index.js",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "next": "^14.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@prisma/client": "^5.10.0",
     "bcryptjs": "^2.4.3",
+    "cookie": "^0.6.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
     "jsonwebtoken": "^9.0.2",
-    "cookie": "^0.6.0"
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie": "^0.6.0",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@types/bcryptjs": "^2.4.6",
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/cookie": "^0.6.0",
-    "typescript": "^5.3.0",
-    "prisma": "^5.10.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
-    "eslint-config-next": "^14.2.0"
+    "eslint-config-next": "^14.2.0",
+    "nodemon": "^3.1.14",
+    "prisma": "^5.10.0",
+    "typescript": "^5.3.0"
   }
 }

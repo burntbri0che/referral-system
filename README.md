@@ -16,11 +16,27 @@ A full-stack referral system built with Next.js, Node.js, PostgreSQL, and Prisma
 ## Tech Stack
 
 - **Frontend**: Next.js 14 (App Router), React, TypeScript
-- **Backend**: Next.js API Routes
+- **Backend**: Express.js, Node.js
 - **Database**: PostgreSQL
 - **ORM**: Prisma
 - **Authentication**: JWT with HTTP-only cookies
 - **Password Hashing**: bcryptjs
+
+## Architecture
+
+This project follows a clean separation between frontend and backend:
+
+- **Express Backend** (`server/`): Handles all API routes, authentication, and business logic
+  - Runs on port 5000
+  - RESTful API endpoints
+  - JWT token generation and verification
+  - Database operations with Prisma
+
+- **Next.js Frontend** (`app/`): Handles UI and user interactions
+  - Runs on port 3000
+  - Server-side rendering for better SEO
+  - Makes API calls to Express backend
+  - Manages client-side state
 
 ## Prerequisites
 
@@ -126,13 +142,28 @@ npx prisma studio
 
 This opens a visual database browser at `http://localhost:5555`
 
-### 7. Run the development server
+### 7. Run the development servers
 
+**Option 1: Run both servers with one command (Recommended)**
+```bash
+npm run dev:all
+```
+
+**Option 2: Run servers separately (in different terminals)**
+
+Terminal 1 - Express Backend:
+```bash
+npm run dev:backend
+```
+
+Terminal 2 - Next.js Frontend:
 ```bash
 npm run dev
 ```
 
-The application will be available at [http://localhost:3000](http://localhost:3000)
+The application will be available at:
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:5000](http://localhost:5000)
 
 ## Database Schema
 
@@ -329,16 +360,7 @@ The system prevents duplicate referral rewards through:
 
 ```
 referral-system/
-├── app/
-│   ├── api/
-│   │   ├── dashboard/
-│   │   │   └── route.ts          # Dashboard API
-│   │   ├── login/
-│   │   │   └── route.ts          # Login API
-│   │   ├── logout/
-│   │   │   └── route.ts          # Logout API
-│   │   └── register/
-│   │       └── route.ts          # Registration API
+├── app/                          # Next.js Frontend
 │   ├── dashboard/
 │   │   └── page.tsx              # Dashboard page
 │   ├── login/
@@ -348,11 +370,21 @@ referral-system/
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
 │   └── page.tsx                  # Home page
+├── server/                       # Express Backend
+│   ├── routes/
+│   │   ├── auth.js               # Auth routes (register, login, logout)
+│   │   └── dashboard.js          # Dashboard route
+│   ├── middleware/
+│   │   └── auth.js               # JWT authentication middleware
+│   └── index.js                  # Express server entry point
 ├── lib/
-│   ├── auth.ts                   # JWT utilities
+│   ├── auth.ts                   # JWT utilities (Next.js)
+│   ├── auth-server.js            # JWT utilities (Express)
 │   ├── db.ts                     # Prisma client
-│   └── utils.ts                  # Helper functions
+│   ├── utils.ts                  # Helper functions (Next.js)
+│   └── utils-server.js           # Helper functions (Express)
 ├── prisma/
+│   ├── migrations/               # Migration files
 │   └── schema.prisma             # Database schema
 ├── .env.example                  # Environment variables template
 ├── .gitignore                    # Git ignore rules

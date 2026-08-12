@@ -21,11 +21,12 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           email,
           password,

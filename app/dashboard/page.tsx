@@ -39,7 +39,9 @@ export default function DashboardPage() {
 
   const fetchDashboard = async () => {
     try {
-      const response = await fetch('/api/dashboard')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/dashboard`, {
+        credentials: 'include'
+      })
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -67,7 +69,10 @@ export default function DashboardPage() {
   }
 
   const handleLogout = async () => {
-    await fetch('/api/logout', { method: 'POST' })
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    })
     router.push('/login')
   }
 

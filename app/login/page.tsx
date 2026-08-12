@@ -17,11 +17,12 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           email,
           password,
