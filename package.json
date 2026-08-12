@@ -1,0 +1,33 @@
+{
+  "name": "referral-system",
+  "version": "1.0.0",
+  "description": "A MERN stack referral system with Next.js, Express.js, PostgreSQL, and Prisma",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@prisma/client": "^5.10.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cookie": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/cookie": "^0.6.0",
+    "typescript": "^5.3.0",
+    "prisma": "^5.10.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.2.0"
+  }
+}
