@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/db'
-import { generateReferralCode, validateEmail, validatePassword } from '@/lib/utils'
+import { generateReferralCode, validateEmail, validatePassword, sanitizeEmail } from '@/lib/utils'
 import { generateToken } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
@@ -26,19 +26,22 @@ export async function POST(request: NextRequest) {
 
     if (!validatePassword(password)) {
       return NextResponse.json(
-        { error: 'Password must be at least 6 characters long' },
+        { error: 'Password must be at least 8 characters and contain both letters and numbers' },
         { status: 400 }
       )
     }
 
+    // Sanitize inputs
+    const sanitizedEmail = sanitizeEmail(email)
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email: sanitizedEmail }
     })
 
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User with this email already exists' },
+        { error: 'An account with this email already exists' },
         { status: 409 }
       )
     }
@@ -79,11 +82,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Create user and award points to referrer in a transaction
+    // Transaction ensures atomic operation: either both user creation and point award succeed, or both fail
+    // This prevents duplicate referral rewards
     const user = await prisma.$transaction(async (tx) => {
       // Create the new user
       const newUser = await tx.user.create({
         data: {
-          email,
+          email: sanitizedEmail,
           password: hashedPassword,
           referralCode: newReferralCode,
           referredById: referrerId

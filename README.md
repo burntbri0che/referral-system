@@ -102,6 +102,12 @@ JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
 NEXT_PUBLIC_API_URL="http://localhost:3000"
 ```
 
+**IMPORTANT SECURITY NOTE:**
+- Change `JWT_SECRET` to a strong random string (at least 32 characters)
+- Never commit your `.env` file to version control
+- Use different secrets for development and production
+- You can generate a secure secret with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+
 ### 5. Run database migrations
 
 ```bash
@@ -286,20 +292,29 @@ Logout the current user.
 ## Security Features
 
 ### Authentication
-- JWT tokens stored in HTTP-only cookies
+- JWT tokens stored in HTTP-only cookies (prevents XSS attacks)
 - Tokens expire after 7 days
-- Secure flag enabled in production
-- SameSite cookie policy
+- Secure flag enabled in production (HTTPS only)
+- SameSite cookie policy set to 'lax' (CSRF protection)
 
 ### Password Security
 - Passwords hashed using bcrypt with salt rounds of 10
+- Strong password requirements: minimum 8 characters, must contain letters and numbers
 - Never stored or transmitted in plain text
+- Generic error messages to prevent user enumeration
+
+### Input Validation & Sanitization
+- Email validation with regex pattern
+- Email sanitization (trim whitespace, lowercase)
+- Password strength validation (length + complexity)
+- Input validation on all API endpoints
 
 ### Database Security
 - Unique constraints prevent duplicate accounts
-- Transactions ensure atomic operations
+- Transactions ensure atomic operations (prevents race conditions)
 - Indexed fields for optimized queries
 - Foreign key constraints maintain referential integrity
+- Prisma ORM prevents SQL injection attacks
 
 ### Duplicate Reward Prevention
 

@@ -76,8 +76,8 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="At least 6 characters"
-              minLength={6}
+              placeholder="At least 8 characters, letters and numbers"
+              minLength={8}
             />
           </div>
 

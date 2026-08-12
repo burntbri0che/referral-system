@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/db'
 import { generateToken } from '@/lib/auth'
-import { validateEmail } from '@/lib/utils'
+import { validateEmail, sanitizeEmail } from '@/lib/utils'
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,14 +19,17 @@ export async function POST(request: NextRequest) {
 
     if (!validateEmail(email)) {
       return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
+        { error: 'Invalid credentials' },
+        { status: 401 }
       )
     }
 
+    // Sanitize input
+    const sanitizedEmail = sanitizeEmail(email)
+
     // Find user
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: sanitizedEmail },
       select: {
         id: true,
         email: true,
