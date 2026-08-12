@@ -5,6 +5,8 @@
 
 # testing
 /coverage
+/__tests__
+jest.config.js
 
 # next.js
 /.next/
