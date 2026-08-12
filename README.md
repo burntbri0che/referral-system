@@ -456,6 +456,5 @@ npm start
 
 MIT
 
-## Author
 
 MERN Stack Developer Assessment Project
